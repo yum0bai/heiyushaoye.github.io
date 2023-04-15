@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>hexo的优化：又拍云cdn访问加速 | 学习随笔</title><meta name="keywords" content="Hexo,Course,CDN"><meta name="author" content="余白"><meta name="copyright" content="余白"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="博客访问速度的优化！！！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo的优化：又拍云cdn访问加速">
+<meta property="og:url" content="https://www.vipyubai.top/post/a42befc6.html">
+<meta property="og:site_name" content="学习随笔">
+<meta property="og:description" content="博客访问速度的优化！！！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.vipyubai.top//test1/202304151939239.png">
+<meta property="article:published_time" content="2022-08-27T09:36:10.000Z">
+<meta property="article:modified_time" content="2022-08-27T09:36:10.000Z">
+<meta property="article:author" content="余白">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Course">
+<meta property="article:tag" content="CDN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.vipyubai.top//test1/202304151939239.png"><link rel="shortcut icon" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/yulogo.png"><link rel="canonical" href="https://www.vipyubai.top/post/a42befc6"><link rel="preconnect" href="//cdn1.tianli0.top"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.sourcegcdn.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdnjs.sourcegcdn.com/ajax/libs/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdnjs.sourcegcdn.com/ajax/libs/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdnjs.sourcegcdn.com/ajax/libs/justifiedGallery/3.8.1/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdnjs.sourcegcdn.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://cdnjs.sourcegcdn.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-08-27 17:36:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        })(window)</script><link rel="stylesheet" href="/html/style.html"  media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/style.css"  media="defer" onload="this.media='all'"><script src="/js/SAO-Notify.js" async></script><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="https://cdn1.tianli0.top/npm/element-ui@2.15.6/packages/theme-chalk/lib/index.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="学习随笔" type="application/atom+xml">
+<link rel="alternate" href="/rss.xml" title="学习随笔" type="application/rss+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="simply-cha-top"></div><div class="is-center" id="sidebar-avatar"><div class="avatar-img"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/余白2.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">余白</div><div class="author-info__description">欢迎光临余白の小屋！</div></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/2X-ercha"><i class="fab fa-github"></i><span> Follow Me</span></a><div class="menu-info-social-icons is-center"><a class="social-icon" href="https://github.com/heiyushaoye" target="_blank" title="Github"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github"></use></svg></a><a class="social-icon" href="mailto:5824795@qq.com" target="_blank" title="Email"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a><a class="social-icon" href="https://space.bilibili.com/423405751" target="_blank" title="Bilibili"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-CN_bilibiliB"></use></svg></a><a class="social-icon" href="https://music.163.com/#/user/home?id=1664121825" target="_blank" title="网易云"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-yinle"></use></svg></a><a class="social-icon" href="/about/" target="_blank" title="rss"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss"></use></svg></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xigua1"></use></svg><span> 余白の小窝</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-100px;"><li><a class="site-page child" href="/tags/Course/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jiaocheng"></use></svg><span> 教程分享</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://code.vipyubai.top/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xiangmu"></use></svg><span> 资源整理</span></a></li><li><a class="site-page child" href="/categories/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jiaocheng"></use></svg><span> 文章分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-miao"></use></svg><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-100px;"><li><a class="site-page child" href="/tags/java/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-colorful-code"></use></svg><span> 学学Java</span></a></li><li><a class="site-page child" href="/tags/html/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-colorful-code"></use></svg><span> 看看前端</span></a></li><li><a class="site-page child" href="/tags/SSM/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-colorful-code"></use></svg><span> 用用框架</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-tea"></use></svg><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-100px;"><li><a class="site-page child" href="/link/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-pengyou"></use></svg><span> 友情链接</span></a></li><li><a class="site-page child" href="/biographical%20notes/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-pengyouquanzhushou2x"></use></svg><span> 个人简历</span></a></li><li><a class="site-page child" href="/messageboard/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-shuoshuo-"></use></svg><span> 留言信枫</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-liuyan"></use></svg><span> 本站</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-45px;"><li><a class="site-page child" href="/tags/Diary/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-tubiaozhizuomoban-"></use></svg><span> 更新手帐</span></a></li><li><a class="site-page child" href="/about/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xinfeng"></use></svg><span> 关于本站</span></a></li></ul></div></div><div class="simply-cha"></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/">学习随笔</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xigua1"></use></svg><span> 余白の小窝</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-100px;"><li><a class="site-page child" href="/tags/Course/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jiaocheng"></use></svg><span> 教程分享</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://code.vipyubai.top/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xiangmu"></use></svg><span> 资源整理</span></a></li><li><a class="site-page child" href="/categories/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jiaocheng"></use></svg><span> 文章分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-miao"></use></svg><span> 笔记</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-100px;"><li><a class="site-page child" href="/tags/java/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-colorful-code"></use></svg><span> 学学Java</span></a></li><li><a class="site-page child" href="/tags/html/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-colorful-code"></use></svg><span> 看看前端</span></a></li><li><a class="site-page child" href="/tags/SSM/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-colorful-code"></use></svg><span> 用用框架</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-tea"></use></svg><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-100px;"><li><a class="site-page child" href="/link/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-pengyou"></use></svg><span> 友情链接</span></a></li><li><a class="site-page child" href="/biographical%20notes/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-pengyouquanzhushou2x"></use></svg><span> 个人简历</span></a></li><li><a class="site-page child" href="/messageboard/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-shuoshuo-"></use></svg><span> 留言信枫</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-liuyan"></use></svg><span> 本站</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child" style="left:-45px;"><li><a class="site-page child" href="/tags/Diary/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-tubiaozhizuomoban-"></use></svg><span> 更新手帐</span></a></li><li><a class="site-page child" href="/about/"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xinfeng"></use></svg><span> 关于本站</span></a></li></ul></div></div></div><div id="navFn"><div id="search-button"><a class="social-icon search"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-sousuo"></use></svg><span> 搜索</span></a></div><div id="darkmodeBt"><a class="darkmode switch"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-deng1"></use></svg><span id="darkmode-switch"> 关灯</span></a></div><div id="toggle-menu"><a class="site-page"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mulu"></use></svg></a></div></div></div></nav></header><main class="layout hide-aside" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">hexo的优化：又拍云cdn访问加速</h1><div id="post-meta"><div class="tag-cloud-list is-center"><a href="/tags/Hexo/" style="font-size: 1.65em; color: rgb(6, 160, 196)">Hexo</a><a href="/tags/Course/" style="font-size: 1.8em; color: rgb(87, 3, 151)">Course</a><a href="/tags/CDN/" style="font-size: 1.5em; color: rgb(185, 178, 175)">CDN</a></div><div class="meta-firstline"><span class="post-meta-date"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rili"></use></svg><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-27T09:36:10.000Z" title="发表于 2022-08-27 17:36:10">2022-08-27</time><span class="post-meta-separator">|</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-shijian"></use></svg><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-27T09:36:10.000Z" title="更新于 2022-08-27 17:36:10">2022-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><a class="post-meta-categories" href="/categories/%E6%95%99%E7%A8%8B/">教程</a></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="hexo的优化：又拍云cdn访问加速"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div><div class="line"> <svg class="icon" aria-hidden="true"><use xlink:href="#icon-xigua2"></use></svg><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xigua2"></use></svg><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xigua2"></use></svg><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xigua2"></use></svg><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xigua2"></use></svg></div></div></div><article class="post-content" id="article-container"><p><script type="text/javascript">
+SAONotify('Hello','欢迎来到余白的博客❤<span class="inline-tag red">联系方式vx：joker_yubai<br/>右下角打开目录！！！</span>','location.reload(true);');
+</script></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>为了追求博客访问速度，还是决定使用又拍云CDN，进行访问加速</li>
+</ul>
+<ul>
+<li>之前已经申请了又拍云联盟，每个月送10GB的CDN流量，关键还是HTTPS的。对于我这个小破客来说每个月完全够用😂</li>
+</ul>
+<ul>
+<li>我的静态博客使用的是vercle+GitHub双线部署，本篇也是 verce l+ 又拍云优化教程</li>
+</ul>
+<ul>
+<li>==使用本教程得成功部署静态博客到vercel【其它平台也可以】、已经备案的域名==</li>
+</ul>
+<ul>
+<li>coding部署教程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hF411v7e1/?spm_id_from=333.788&amp;vd_source=71e92a1364cbcaf80125baa05f89bc60">coding+又拍云csdn+腾讯云</a></li>
+</ul>
+<h2 id="又拍云"><a href="#又拍云" class="headerlink" title="又拍云"></a>又拍云</h2><ol>
+<li>注册又拍云： <a target="_blank" rel="noopener" href="https://console.upyun.com/register/?invite=BkHDGCzMw">点我注册</a></li>
+</ol>
+<ol>
+<li>在网站底部 foote r处加上又拍云LOGO，或者文字即可</li>
+</ol>
+<ul>
+<li><p>主题配置文件———&gt;footer标签———&gt;custom_text: 后面加入如下代码（ <strong>若你魔改过页脚根据自己的代码修改</strong>）</p>
+ <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">div</span>&gt;</span><br><span class="line">    &lt;a href=&quot;https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral&quot;&gt;本网站由</span><br><span class="line">        &lt;img src=&quot;img/又拍云_logo2.png&quot; width=&quot;45px&quot; /&gt;提供CDN加速/云存储服务&lt;/a&gt;</span><br><span class="line"> &lt;/<span class="selector-tag">div</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>​    说明：img src 的路径是放你自己又拍云 logo 的路径【可以本地，可以图床】</p>
+</li>
+</ul>
+<ol>
+<li>加入又拍云联盟：<a target="_blank" rel="noopener" href="https://www.upyun.com/league">https://www.upyun.com/league</a> 点击申请</li>
+</ol>
+<ol>
+<li>然后等待审核，最迟一周左右【<strong>审核时间这个说不来的</strong>】</li>
+</ol>
+<h2 id="创建cdn服务"><a href="#创建cdn服务" class="headerlink" title="创建cdn服务"></a>创建cdn服务</h2><ul>
+<li>在又拍云进行如下操作<ul>
+<li><strong>注意：加速域名填全称如：www.vipyubai.top</strong>【<strong>然后使用301重新定向，实现简域名跳转</strong>】，==图片粘错了，也懒得改了注意下==</li>
+</ul>
+</li>
+</ul>
+<p>​    <img src="https://www.vipyubai.top//test1/202304151859617.png" alt="image-20220827155002397" style="zoom:80%;" /></p>
+<ul>
+<li>记住又拍云提供的 CNAME 地址，完成后面章节的设置在去解析域名</li>
+</ul>
+<p>​        <img src="https://www.vipyubai.top//test1/202304151859618.png" alt="image-20220827165418531" style="zoom:80%;" /></p>
+<h2 id="vercle的设置"><a href="#vercle的设置" class="headerlink" title="vercle的设置"></a>vercle的设置</h2><p><strong>域名解析我都是以腾讯云为例，其余的参考即可，步骤都一样</strong></p>
+<ul>
+<li><p><strong>删除vercle在域名服务商的A记录类型开头的真实ip解析</strong>（PS：你暂停掉也可以）</p>
+<ul>
+<li><p>暂停解析说明：</p>
+<p>这种情况解析是暴露真实IP地址的，其他人只要ping一下就知道你真实IP，然后就可以干一些坏事</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>修改 Vercle 在域名服务商的CNAME值</p>
+<ul>
+<li>vercle在国内域名解析问题<ul>
+<li>因为地域的问题，需要修改Vercel的记录值为Vercel国内，并修改主机记录，使其成为二级域名</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://www.vipyubai.top//test1/202304151859620.png" alt="image-20220827210112012"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">修改为如下：</span><br><span class="line">	记录值：cname-china.vercel-dns.com</span><br><span class="line">	主机记录： 我的习惯是修改成一个字母，这个字母随意 （字母.后面的域名就是你的二级域名）</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>在vercl 处添加你刚才修改的二级域名</p>
+<p> <img src="https://www.vipyubai.top//test1/202304151859621.png" alt="image-20220827211333057" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h2 id="github的设置"><a href="#github的设置" class="headerlink" title="github的设置"></a>github的设置</h2><p>同样，github上也要取消强制HTTPS</p>
+<p><img src="https://www.vipyubai.top//test1/202304151859622.png" alt="image-20220827155932752" style="zoom:80%;" /></p>
+<h2 id="SSL证书申请与解析"><a href="#SSL证书申请与解析" class="headerlink" title="SSL证书申请与解析"></a>SSL证书申请与解析</h2><h3 id="SSL证书申请"><a href="#SSL证书申请" class="headerlink" title="SSL证书申请"></a>SSL证书申请</h3><ul>
+<li><p>先申请证书，<a target="_blank" rel="noopener" href="https://console.upyun.com/toolbox/ssl/">又拍云ssl证书申请</a></p>
+<ul>
+<li><p>申请证书注意事项：</p>
+<p>​                    关于域名不要填写简域名，写全称如：www.vipyubai.top</p>
+</li>
+<li><p>申请步骤如下(中间步骤就注意域名填写即可，其它没啥）：</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>​        <img src="https://www.vipyubai.top//test1/202304151859623.png" alt="image-20220827211808397" style="zoom:80%;" /></p>
+<ul>
+<li><p>申请完成后去域名商解析ssl证书，又拍云提供的有格式，按照格式添加即可，添加解析后，等待10几分钟，就可以完成证书颁发</p>
+<p>如下图：</p>
+<p> <img src="https://www.vipyubai.top//test1/202304151859624.png" alt="image-20220827212337341" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h3 id="证书解析说明"><a href="#证书解析说明" class="headerlink" title="证书解析说明"></a>证书解析说明</h3><ul>
+<li><p>根据又拍云 提供的格式进行对应解析即可，按照如图步骤即可查看你自己对应的CNAME解析的格式</p>
+<p> <img src="https://www.vipyubai.top//test1/202304151859625.png" alt="image-20220827212504599" style="zoom:80%;" /></p>
+</li>
+<li><p>稍微等几分钟就申请好了，申请成功会显示已经颁发</p>
+</li>
+</ul>
+<h2 id="又拍云CDN配置"><a href="#又拍云CDN配置" class="headerlink" title="又拍云CDN配置"></a>又拍云CDN配置</h2><ul>
+<li><p>配置ssl 证书,并开启https访问，还是在https配置里面开启，步骤如下图所示：</p>
+<p> <img src="https://www.vipyubai.top//test1/202304151859626.png" alt="image-20220827162126518" style="zoom:80%;" /></p>
+</li>
+</ul>
+<p>​    <img src="https://www.vipyubai.top//test1/202304151859627.png" alt="image-20220827212852102" style="zoom:80%;" /></p>
+<ul>
+<li><p>回源host</p>
+<ul>
+<li>将你的二级域名添加到这个里面即可</li>
+</ul>
+<p><img src="https://www.vipyubai.top//test1/202304151859628.png" alt="image-20220827213200195"></p>
+</li>
+<li><p>优化配置</p>
+<ul>
+<li><p>开启 Gzip 和 Brotli，压缩级别调到3</p>
+</li>
+<li><p>开启页面压缩</p>
+</li>
+<li><p>HTTP 302 调度</p>
+</li>
+<li><p>开启TLS1.3，最低建议TLSv1.1</p>
+</li>
+<li><p>开启 HTTP/2 + Server Push</p>
+</li>
+<li><p>WebP 自适应</p>
+</li>
+<li><p>开启源站资源迁移cc</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="防护配置"><a href="#防护配置" class="headerlink" title="防护配置"></a>防护配置</h2><p>为防止恶意攻击，建议在又拍云访问控制，开启ip限制和cc防护</p>
+<ul>
+<li><p><strong>IP访问控制</strong></p>
+<ul>
+<li><p><strong>这个是限制访问频率的</strong></p>
+<p><img src="https://www.vipyubai.top//test1/202304151859629.png" alt="image-20220827164416686" style="zoom:80%;" /></p>
+</li>
+</ul>
+</li>
+<li><p><strong>cc防护</strong></p>
+</li>
+</ul>
+<p>   <img src="https://www.vipyubai.top//test1/202304151859630.png" alt="image-20220827164555613" style="zoom:80%;" /></p>
+<ul>
+<li><p><strong>开启防盗链</strong></p>
+<ul>
+<li>==开了之后只有指定域能访问，图床可以开这个，博客不要开，博客开了之后很多地方就不能跳转到你的网页了!==</li>
+<li>评论表情也不要塞到有防盗链的图床里面，不然邮件通知表情全是403配置</li>
+<li><p>若你要开填你允许访问的域名就行了，空着啥域名都访问不了</p>
+<p><img src="https://www.vipyubai.top//test1/202304151859631.png" alt="image-20220915133617746" style="zoom:80%;" /></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="验证CDN加速成功"><a href="#验证CDN加速成功" class="headerlink" title="验证CDN加速成功"></a>验证CDN加速成功</h2><ol>
+<li><p>打开 DOS命令窗口 （快捷键： win+r）</p>
+</li>
+<li><p>在命令窗口 ping 自己的域名</p>
+<p><img src="https://www.vipyubai.top//test1/202304151859632.png" alt="image-20220827165717662" style="zoom:80%;" /></p>
+</li>
+<li><p>然后就可以用你的 www.你的域名  访问</p>
+</li>
+</ol>
+<h2 id="使用简域名访问"><a href="#使用简域名访问" class="headerlink" title="使用简域名访问"></a>使用简域名访问</h2><h3 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h3><p>完成以上的步骤后，达到了博客访问速度的优化，但是还是有一个缺点就是无法使用简域名访问如:vipyubai.top是无法访问的</p>
+<ul>
+<li><p>解决办法：解析跳转（PS:根据自己的域名服务商，百度某某域名显性跳转等关键字即可）</p>
+</li>
+<li><p>步骤看下面即可</p>
+</li>
+</ul>
+<h3 id="域名解析说明"><a href="#域名解析说明" class="headerlink" title="域名解析说明"></a>域名解析说明</h3><ul>
+<li><p>www, @, blog 这些打头的一般都是指向网页的</p>
+</li>
+<li><p>其余的比如：图床，可以改成 res. 或者 image. 之类的</p>
+</li>
+</ul>
+<h3 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h3><ul>
+<li>dns解析那里整一个301跳转</li>
+</ul>
+<p>​        <img src="https://www.vipyubai.top//test1/202304151859633.png" alt="image-20220915133847397"></p>
+<ul>
+<li>设置完成了等缓存刷新，缓存是dns缓存，你没办法手动刷新，只能等缓存过期自动刷新！若你设置了又拍云CDN加速，时间可以参考你设置的 IP访问控制的那个时段</li>
+</ul>
+</article><div class="business-center"><div class="business-card"><div class="business-flip"><div class="business-front"><div class="business-strip-bottom"></div><div class="business-strip-top"></div><img class="business-logo" width="80" height="80" src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/自己的微信二维码.jpg#加群二维码" alt="cardcode"><div class="business-Invitation">Invitation</div><div class="business-chip"><div class="business-chip-line"></div><div class="business-chip-line"></div><div class="business-chip-line"></div><div class="business-chip-line"></div><div class="business-chip-main"></div></div><svg class="business-wave" viewBox="0 3.71 26.959 38.787" width="26.959" height="38.787" fill="white"><path d="M19.709 3.719c.266.043.5.187.656.406 4.125 5.207 6.594 11.781 6.594 18.938 0 7.156-2.469 13.73-6.594 18.937-.195.336-.57.531-.957.492a.9946.9946 0 0 1-.851-.66c-.129-.367-.035-.777.246-1.051 3.855-4.867 6.156-11.023 6.156-17.718 0-6.696-2.301-12.852-6.156-17.719-.262-.317-.301-.762-.102-1.121.204-.36.602-.559 1.008-.504z"></path><path d="M13.74 7.563c.231.039.442.164.594.343 3.508 4.059 5.625 9.371 5.625 15.157 0 5.785-2.113 11.097-5.625 15.156-.363.422-1 .472-1.422.109-.422-.363-.472-1-.109-1.422 3.211-3.711 5.156-8.551 5.156-13.843 0-5.293-1.949-10.133-5.156-13.844-.27-.309-.324-.75-.141-1.114.188-.367.578-.582.985-.542h.093z"></path><path d="M7.584 11.438c.227.031.438.144.594.312 2.953 2.863 4.781 6.875 4.781 11.313 0 4.433-1.828 8.449-4.781 11.312-.398.387-1.035.383-1.422-.016-.387-.398-.383-1.035.016-1.421 2.582-2.504 4.187-5.993 4.187-9.875 0-3.883-1.605-7.372-4.187-9.875-.321-.282-.426-.739-.266-1.133.164-.395.559-.641.984-.617h.094zM1.178 15.531c.121.02.238.063.344.125 2.633 1.414 4.437 4.215 4.437 7.407 0 3.195-1.797 5.996-4.437 7.406-.492.258-1.102.07-1.36-.422-.257-.492-.07-1.102.422-1.359 2.012-1.075 3.375-3.176 3.375-5.625 0-2.446-1.371-4.551-3.375-5.625-.441-.204-.676-.692-.551-1.165.122-.468.567-.785 1.051-.742h.094z"></path></svg><div class="business-card-number"><div class="business-section">余 白</div><div class="business-section">QQ:5824795</div></div><div class="business-end"><span class="business-end-text">created:</span><span class="business-end-date">03/08/2022</span></div><div class="business-card-holder">Welcome to Yubaihome</div><div class="business-master"><div class="business-circle business-master-red"></div><div class="business-circle business-master-yellow">   </div></div></div><div class="business-back"><div class="business-strip-black"></div><div class="business-ccv"><label>sitelink</label><div><a target="_blank" rel="noopener" href="https://vipyubai.top">https://vipyubai.top</a></div></div><div class="business-terms"><p>春风得意马蹄疾，一日看尽长安花。</p><p>欢迎来到余白的博客！愿你有美好的一天！</p></div></div></div></div></div><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>hexo的优化：又拍云cdn访问加速</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="/%E4%BD%99%E7%99%BD%E3%81%AE%E5%8D%9A%E5%AE%A2">余白の博客</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>余白</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2022-08-27</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2022-08-27</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hexo/">Hexo</a><a class="post-meta__tags" href="/tags/Course/">Course</a><a class="post-meta__tags" href="/tags/CDN/">CDN</a></div><div class="post_share"><div class="social-share" data-image="https://www.vipyubai.top//test1/202304151939239.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.sourcegcdn.com/ajax/libs/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.sourcegcdn.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/微信收.png" target="_blank"><img class="post-qr-code-img" src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/微信收.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><div class="relatedPosts"><div class="headline is-center"><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/post/a42befc66.html" title="Hexo+Github搭建个人博客教程（二）"><img class="cover" src="https://www.vipyubai.top//test1/202304151936664.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-08-22</div><div class="title">Hexo+Github搭建个人博客教程（二）</div></div></a></div><div><a href="/post/a42befc33.html" title="butterfly美化日记(二)"><img class="cover" src="https://www.vipyubai.top//test1/202304151938718.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-08-22</div><div class="title">butterfly美化日记(二)</div></div></a></div><div><a href="/post/a42befc0.html" title="Hexo+Github搭建免费博客教程(一)"><img class="cover" src="https://www.vipyubai.top//test1/202304151936664.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-08-22</div><div class="title">Hexo+Github搭建免费博客教程(一)</div></div></a></div><div><a href="/post/a42befc2.html" title="butterfly美化日记(一)"><img class="cover" src="https://www.vipyubai.top//test1/202304151938718.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-08-22</div><div class="title">butterfly美化日记(一)</div></div></a></div><div><a href="/post/a42befc689.html" title="宝塔搭建WordPress网址、安装子比主题（保姆级教程）"><img class="cover" src="https://www.vipyubai.top//test1/202304152045264.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2022-11-20</div><div class="title">宝塔搭建WordPress网址、安装子比主题（保姆级教程）</div></div></a></div><div><a href="/post/a42befc87.html" title="Typora+PicGo+又拍云（免费图床）实现图片上传"><img class="cover" src="https://www.vipyubai.top//test1/202304152043821.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-04-15</div><div class="title">Typora+PicGo+又拍云（免费图床）实现图片上传</div></div></a></div></div></div><div id="post-comment"><div class="comment-head is-center"><div class="comment-headline"><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div></main><footer id="footer"><div class="wordcount"><span>余白居然写了 21.2k 字</span></br><span>还在努力更新中.. 加油！加油啦！</span></div><div class="footer-content"><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="padding: 0.4rem">hexo</span></a><a><i class="fas fa-heart"></i></a><a href="https://butterfly.js.org/" target="_blank" rel="nofollow noopener"><span style="padding: 0.4rem">butterfly</span></a><div style="font-size: 0.7rem"><span id="timeDate">载入天数...</span><span> </span><span id="times">载入时分秒...</span><script src="/js/add/duration.js"></script></div></div><div class="statistics"><span id="site_uv">有 <span id="busuanzi_value_site_uv"></span><span> 人光顾过余白的小屋</span></span><span id="site_pv"><span>共 </span><span id="busuanzi_value_site_pv"></span><span> 次在这里相遇</span></span><span id="site_pv"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn">陕ICP备 2022009697号</a></span><span id="site_pv"><a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">本网站由又拍云提供CDN加速</a></span></div></footer></div><div id="rightside"><div id="rightside-menu"><div id="rightside-avatar-card"><div class="is-center" id="rightside-avatar"><div class="avatar-img"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/1024/余白2.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">余白</div><div class="author-info__description">欢迎光临余白の小屋！</div></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/2X-ercha"><i class="fab fa-github"></i><span> Follow Me</span></a><div class="menu-info-social-icons is-center"><a class="social-icon" href="https://github.com/heiyushaoye" target="_blank" title="Github"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github"></use></svg></a><a class="social-icon" href="mailto:5824795@qq.com" target="_blank" title="Email"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-youxiang"></use></svg></a><a class="social-icon" href="https://space.bilibili.com/423405751" target="_blank" title="Bilibili"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-CN_bilibiliB"></use></svg></a><a class="social-icon" href="https://music.163.com/#/user/home?id=1664121825" target="_blank" title="网易云"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-yinle"></use></svg></a><a class="social-icon" href="/about/" target="_blank" title="rss"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss"></use></svg></a></div></div><div class="is-center" id="rightside-menus"><button id="rightside-childmenu-contents" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="rightside-childmenu-comment"><a href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a></button><button id="rightside-childmenu-go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button><button id="rightside-childmenu-unfold" type="button" title="展开菜单"><i class="fas fa-angle-up"></i></button><button id="rightside-childmenu-fold" type="button" title="收起菜单"><i class="fas fa-angle-down"></i></button></div></div><div id="rightside-contents"><div class="card-widget" id="card-toc"><div class="item-headline is-center"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%88%E6%8B%8D%E4%BA%91"><span class="toc-text">又拍云</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAcdn%E6%9C%8D%E5%8A%A1"><span class="toc-text">创建cdn服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vercle%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-text">vercle的设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#github%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-text">github的设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL%E8%AF%81%E4%B9%A6%E7%94%B3%E8%AF%B7%E4%B8%8E%E8%A7%A3%E6%9E%90"><span class="toc-text">SSL证书申请与解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSL%E8%AF%81%E4%B9%A6%E7%94%B3%E8%AF%B7"><span class="toc-text">SSL证书申请</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6%E8%A7%A3%E6%9E%90%E8%AF%B4%E6%98%8E"><span class="toc-text">证书解析说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%88%E6%8B%8D%E4%BA%91CDN%E9%85%8D%E7%BD%AE"><span class="toc-text">又拍云CDN配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%A4%E9%85%8D%E7%BD%AE"><span class="toc-text">防护配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81CDN%E5%8A%A0%E9%80%9F%E6%88%90%E5%8A%9F"><span class="toc-text">验证CDN加速成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%AE%80%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AE"><span class="toc-text">使用简域名访问</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80-1"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E8%AF%B4%E6%98%8E"><span class="toc-text">域名解析说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS%E8%A7%A3%E6%9E%90"><span class="toc-text">DNS解析</span></a></li></ol></li></ol></div></div></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    let initData = {
+      el: '#twikoo-wrap',
+      envId: 'https://x.vipyubai.top/',
+      region: ''
+    }
+
+    if (false) {
+      const otherData = false
+      initData = Object.assign(initData, otherData)
+    }
+    
+    twikoo.init(initData)
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'https://x.vipyubai.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://cdnjs.sourcegcdn.com/ajax/libs/twikoo/1.5.4/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn1.tianli0.top/npm/vue@2.6.14/dist/vue.min.js"></script><script src="https://cdn1.tianli0.top/npm/element-ui@2.15.6/lib/index.js"></script><script src="/js/strly.js"></script><script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script><script async src="//at.alicdn.com/t/font_2749059_1lswi5j6yqg.js"></script><script src="/js/add/nav.js"></script><script src="/js/add/rightside.js"></script><script src="https://cdn.jsdelivr.net/gh/weilain/cdn-photo/js/jquery.min.js"></script><script src="https://cdn1.tianli0.top/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script type="text/javascript" src="/js/crash_cheat.js"></script><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://www.vipyubai.top/categories/教程/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💻 余白の教程大全 (8)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="https://www.vipyubai.top/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="ghbdages" style="overflow:hidden;max-height:180px;height:auto;text-align:center;margin-top:10px"><div class="swiper-wrapper"><div class="swiper-slide"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" title="博客框架为Hexo_v5.3.0"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" title="主题版本Butterfly_v3.7.0-b2"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.sourcegcdn.com/" style="margin-inline:5px" title="本站使用Source Global CDN为部分静态资源提供CDN加速"><img src="https://img.shields.io/badge/CDN-sourcegcdn-orange?style=flat&amp;logo=Apache%20RocketMQ" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" title="本站使用JsDelivr仅用于访问部分静态资源"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" title="本站项目由Github托管"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></div></div></div><style>a.github-badge:hover:before {display:none}</style>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-footer-beautify/lib/swiperbdage_init_js.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc87.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304152043821.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-04-15</span><a class="blog-slider__title" href="post/a42befc87.html" alt="">Typora+PicGo+又拍云（免费图床）实现图片上传</a><div class="blog-slider__text">又拍云免费图床</div><a class="blog-slider__button" href="post/a42befc87.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc0.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304151936664.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-22</span><a class="blog-slider__title" href="post/a42befc0.html" alt="">Hexo+Github搭建免费博客教程(一)</a><div class="blog-slider__text">详细hexo博客搭建教程！</div><a class="blog-slider__button" href="post/a42befc0.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc689.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304152045264.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-11-20</span><a class="blog-slider__title" href="post/a42befc689.html" alt="">宝塔搭建WordPress网址、安装子比主题（保姆级教程）</a><div class="blog-slider__text">创建一个酷炫且能赚钱的网站！</div><a class="blog-slider__button" href="post/a42befc689.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc66.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304151936664.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-22</span><a class="blog-slider__title" href="post/a42befc66.html" alt="">Hexo+Github搭建个人博客教程（二）</a><div class="blog-slider__text">详细hexo博客搭建教程！</div><a class="blog-slider__button" href="post/a42befc66.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc66.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304151936664.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-22</span><a class="blog-slider__title" href="post/a42befc66.html" alt="">Hexo+Github搭建个人博客教程（二）</a><div class="blog-slider__text">详细hexo博客搭建教程！</div><a class="blog-slider__button" href="post/a42befc66.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc2.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304151938718.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-22</span><a class="blog-slider__title" href="post/a42befc2.html" alt="">butterfly美化日记(一)</a><div class="blog-slider__text">butterfly美化步骤记录！</div><a class="blog-slider__button" href="post/a42befc2.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc33.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304151938718.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-22</span><a class="blog-slider__title" href="post/a42befc33.html" alt="">butterfly美化日记(二)</a><div class="blog-slider__text">优质的butterfly美化教程推荐！</div><a class="blog-slider__button" href="post/a42befc33.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="post/a42befc6.html" alt=""><img width="48" height="48" src="https://www.vipyubai.top//test1/202304151939239.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-27</span><a class="blog-slider__title" href="post/a42befc6.html" alt="">hexo的优化：又拍云cdn访问加速</a><div class="blog-slider__text">博客访问速度的优化！！！</div><a class="blog-slider__button" href="post/a42befc6.html" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
